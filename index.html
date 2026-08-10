@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link href="./src/output.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="grid grid-cols-1 md:grid-cols-2 md:p-10  bg-[#1e0132] h-full md:h-screen md:overflow-hidden">
+        <div class="left md:h-[530px] ">
+            <img src="./formbg-mobile2.jpg" alt="Banner image" class="w-full h-full md:object-cover align-top rounded">
+        </div>
+        <div class="right md:h-[530px]">
+            <div class="reg-form bg-white p-5 mx-5 my-10 md:my-0 rounded">
+                <h1 class="text-2xl font-semibold text-[#160039] text-center">Register Now</h1>
+                <form id="regForm" class="space-y-6 mt-10" method="post">
+                    <div>
+                        <label for="name" class="mb-2 text-slate-900 font-medium text-sm inline-block ">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name"
+                            class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 outline-slate-300 focus:outline-2 focus:outline-purple-600 " />
+                        <p id="nameerrorMsg" class="hidden text-red-600 text-sm italic mt-3"></p>
+                    </div>
+                    <div>
+                        <label for="email" class="mb-2 text-slate-900 font-medium text-sm inline-block ">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email id"
+                            class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 outline-slate-300 focus:outline-2 focus:outline-purple-600 " />
+                        <p id="emailerrorMsg" class="hidden text-red-600 text-sm italic mt-3"></p>
+                    </div>
+                    <div>
+                        <label for="password"
+                            class="mb-2 text-slate-900 font-medium text-sm inline-block ">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••"
+                            class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 outline-slate-300 focus:outline-2 focus:outline-purple-600" />
+                        <p id="passworderrorMsg" class="hidden text-red-600 text-sm italic mt-3"></p>
+                    </div>
+                    <div>
+                        <label for="confirm-password"
+                            class="mb-2 text-slate-900 font-medium text-sm inline-block ">Confirm
+                            password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••"
+                            class="px-3 py-2.5 text-sm text-slate-900 rounded-md bg-white w-full outline-1 outline-slate-300 focus:outline-2 focus:outline-purple-600" />
+                        <p id="confirmPassworderrorMsg" class="hidden text-red-600 text-sm italic mt-3"></p>
+                    </div>
+
+                    <button type="submit" id="submit"
+                        class="w-full py-2 px-3.5 text-sm rounded-md font-semibold not-odd:tracking-wide text-white border border-purple-600 bg-purple-600 hover:bg-purple-700 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 cursor-pointer">
+                        Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var nameInput = document.getElementById("name");
+        var emailInput = document.getElementById("email");
+        var passwordInput = document.getElementById("password");
+        var confirmPasswordInput = document.getElementById("confirm-password");
+        var submitBtn = document.getElementById("submit");
+        var nameerrorMsg = document.getElementById("nameerrorMsg");
+        var nameValid;
+        var emailValid;
+        var passwordValid;
+        var confirmPasswordValid;
+        nameInput.addEventListener('input', function () {
+            if (nameInput.value.trim() == '') {
+                nameerrorMsg.textContent = "Please enter your name";
+                nameerrorMsg.classList.remove('hidden');
+                nameValid = false;
+                nameInput.classList.add('focus:outline-red-600');
+            } else {
+                nameerrorMsg.textContent = "";
+                nameerrorMsg.classList.add('hidden');
+                nameValid = true;
+                nameInput.classList.remove('focus:outline-red-600');
+                nameInput.classList.remove('focus:outline-purple-600');
+                nameInput.classList.add('focus:outline-green-700');
+            }
+            finalValidationCheck();
+        });
+        emailInput.addEventListener('input', function () {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailInput.value.trim() != '') {
+                if (!emailPattern.test(emailInput.value)) {
+                    emailerrorMsg.textContent = "Enter a valid email";
+                    emailerrorMsg.classList.remove('hidden');
+                    emailValid = false;
+                    emailInput.classList.add('focus:outline-red-600');
+                } else {
+                    emailerrorMsg.textContent = "";
+                    emailerrorMsg.classList.add('hidden');
+                    emailValid = true;
+                    emailInput.classList.remove('focus:outline-red-600');
+                    emailInput.classList.remove('focus:outline-purple-600');
+                    emailInput.classList.add('focus:outline-green-700');
+                }
+            }
+            else {
+                emailerrorMsg.textContent = "Please enter your email";
+                emailerrorMsg.classList.remove('hidden');
+                emailValid = false;
+                emailInput.classList.add('focus:outline-red-600');
+            }
+            finalValidationCheck();
+        });
+
+        passwordInput.addEventListener('input', function () {
+            if (passwordInput.value.trim() != '') {
+                if (passwordInput.value.trim().length < 6) {
+                    //alert(passwordInput.value.trim().length);
+                    passworderrorMsg.textContent = "Password should contain min 6 characters";
+                    passworderrorMsg.classList.remove('hidden');
+                    passwordValid = false;
+                    passwordInput.classList.add('focus:outline-red-600');
+                } else {
+                    passworderrorMsg.textContent = "";
+                    passworderrorMsg.classList.add('hidden');
+                    passwordValid = true;
+                    passwordInput.classList.remove('focus:outline-red-600');
+                    passwordInput.classList.remove('focus:outline-purple-600');
+                    passwordInput.classList.add('focus:outline-green-700');
+                }
+            }
+            else {
+                passworderrorMsg.textContent = "Please enter password";
+                passworderrorMsg.classList.remove('hidden');
+                passwordValid = false;
+                passwordInput.classList.add('focus:outline-red-600');
+            }
+            finalValidationCheck();
+        });
+        confirmPasswordInput.addEventListener('input', function () {
+            if (confirmPasswordInput.value.trim() != '') {
+                if (confirmPasswordInput.value.trim().length < 6) {
+                    //alert(confirmPasswordInput.value.trim().length);
+                    confirmPassworderrorMsg.textContent = "Password is too short.It should contain min 6 characters";
+                    confirmPassworderrorMsg.classList.remove('hidden');
+                    confirmPasswordValid = false;
+                    confirmPasswordInput.classList.add('focus:outline-red-600');
+                } else if (confirmPasswordInput.value.trim() != passwordInput.value.trim()) {
+                    //alert('not same');
+                    confirmPassworderrorMsg.textContent = "Passwords don't match";
+                    confirmPassworderrorMsg.classList.remove('hidden');
+                    confirmPasswordValid = false;
+                    confirmPasswordInput.classList.add('focus:outline-red-600');
+                }
+                else {
+                    confirmPassworderrorMsg.textContent = "";
+                    confirmPassworderrorMsg.classList.add('hidden');
+                    confirmPasswordValid = true;
+                    confirmPasswordInput.classList.remove('focus:outline-red-600');
+                    confirmPasswordInput.classList.remove('focus:outline-purple-600');
+                    confirmPasswordInput.classList.add('focus:outline-green-700');
+
+                }
+            }
+            else {
+                confirmPassworderrorMsg.textContent = "Please confirm password once";
+                confirmPassworderrorMsg.classList.remove('hidden');
+                confirmPasswordValid = false;
+
+                confirmPasswordInput.classList.add('focus:outline-red-600');
+            }
+            finalValidationCheck();
+
+        });
+
+
+        var form = document.getElementById("regForm")
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            finalValidationCheck();
+            alert("You're registered! See you at the event!");
+            location.reload();
+        });
+
+        finalValidationCheck();
+        function finalValidationCheck() {
+            if (nameValid && emailValid && passwordValid && confirmPasswordValid) {
+                submitBtn.disabled = false;
+                submitBtn.style.cursor = "pointer";
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.style.cursor = "not-allowed";
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
